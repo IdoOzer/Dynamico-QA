@@ -9,8 +9,8 @@ test.describe("Setup", () => {
   test.beforeEach(async ({ page }) => {
     page.goto('https://discord.com/login')
 
-    await page.waitForURL('https://discord.com/app');
-    await page.waitForURL('https://discord.com/channels/@me');
+    await page.waitForURL('https://discord.com/app', { timeout: 10000 });
+    await page.waitForURL('https://discord.com/channels/@me', { timeout: 10000 });
   
     await page.click('div[data-list-item-id="guildsnav___1088040109305241610"]')
     await expect(page).toHaveURL('https://discord.com/channels/1088040109305241610/1088040109909213279');
