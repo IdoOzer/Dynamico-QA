@@ -39,7 +39,7 @@ test.describe("Setup", () => {
 });
 
 
-
+const testedBotName = "AncientAI"
 
 
 async function remove_channels (page) {
@@ -73,7 +73,8 @@ async function remove_channels (page) {
 async function setup (page) {
   await page.getByRole("textbox", { name: "Message #general" }).locator("div").click()
   await page.getByRole("textbox", { name: "Message #general" }).fill("/setup")
-  await page.getByText("/setupSetting up Dynamico").click()
+
+  await page.getByText( "Commands matching" ).locator( ".." ).locator( ".." ).locator( ".." ).getByRole('option', { name: `/setup Setting up Dynamico ${testedBotName}` }).getByText('Setting up Dynamico').click();
   await page.getByRole("textbox", { name: "Message #general" }).press("Enter")
 }
 async function setup_max_channels (max, page) {
@@ -288,7 +289,8 @@ async function manage_users (page, username) {
 async function config (page) {
   await page.getByRole("textbox", { name: "Message #general" }).locator("div").click()
   await page.getByRole("textbox", { name: "Message #general" }).fill("/config")
-  await page.getByText("Configure Dynamico").click()
+
+  await page.getByText( "Commands matching" ).locator( ".." ).locator( ".." ).locator( ".." ).getByRole('option', { name: `/config Configure Dynamico ${testedBotName}` }).getByText('Configure Dynamico').click();
   await page.getByRole("textbox", { name: "Message #general" }).press("Enter")
 }
 async function check_config (page, random_number, random_string) {
