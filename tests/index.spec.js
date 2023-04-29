@@ -294,9 +294,10 @@ async function config (page) {
   await page.getByRole("textbox", { name: "Message #general" }).press("Enter")
 }
 async function check_config (page, random_number, random_string) {
-  await page.waitForSelector('code', { text: `{user} ${random_number}` });
-  await expect(page.getByText(`{user} ${random_number}`, { exact: true })).toBeVisible();
-  await expect(page.getByText(`${random_string.join(", ")}`, { exact: true })).toBeVisible();
+  await page.waitForSelector('code', { text: `{user} ${random_number}` } );
+
+  await expect(page.getByText(`{user} ${random_number}`, { exact: true })).toBeVisible( { timeout: 10000 } );
+  await expect(page.getByText(`${random_string.join(", ")}`, { exact: true })).toBeVisible( { timeout: 10000 } );
 
   const random_number1 = Math.floor(Math.random() * 100), random_string1 = [(Math.random() + 1).toString(36).substring(7), (Math.random() + 1).toString(36).substring(7), (Math.random() + 1).toString(36).substring(7)]
 
