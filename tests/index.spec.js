@@ -5,7 +5,14 @@ async function sleep(time) {
 }
 
 const config = {
-  testedBotName: "AncientAI",
+  testedBotName: "LegendAI",
+
+  // Loaded from setup.
+  username: "",
+  channel_name: "",
+
+  guild_id: "1079488311892127907",
+  channel_id: "1103385981597524083",
 
   // Loaded from setup.
   username: "",
@@ -31,8 +38,8 @@ test.describe("Setup", () => {
     await page.waitForURL('https://discord.com/app', {timeout: 10000});
     await page.waitForURL('https://discord.com/channels/@me', {timeout: 10000});
 
-    await page.click('div[data-list-item-id="guildsnav___1088040109305241610"]');
-    await expect(page).toHaveURL('https://discord.com/channels/1088040109305241610/1088040109909213279');
+    await page.click(`div[data-list-item-id="guildsnav___${config.guild_id}"]`);
+    await expect(page).toHaveURL(`https://discord.com/channels/${config.guild_id}/${config.channel_id}`);
 
     await page.getByLabel('Close').click({timeout: 1000}).catch(() => {
     });
@@ -45,6 +52,12 @@ test.describe("Setup", () => {
 
     // Set username to config.
     config.username = await userAreaSectionText.innerText();
+
+    // Get page title
+    const title = await page.title();
+
+    // Extract current channel name from title.
+    config.channel_name = title.split(' | ')[1];
   });
 
   // test('Default', async ({ page }) => {
@@ -95,11 +108,18 @@ async function remove_channels(page) {
 }
 
 async function setup(page) {
-  await page.getByRole("textbox", {name: "Message #general"}).locator("div").click();
-  await page.getByRole("textbox", {name: "Message #general"}).fill("/setup");
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).locator("div").click();
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).fill("/setup");
 
-  await page.getByText("Commands matching").locator("..").locator("..").locator("..").getByRole('option', {name: `/setup Setting up Dynamico ${config.testedBotName}`}).getByText('Setting up Dynamico').click();
-  await page.getByRole("textbox", {name: "Message #general"}).press("Enter")
+  await page.getByText("Commands matching")
+    .locator("..")
+    .locator("..")
+    .locator("..")
+    .getByRole('option', {name: `/setup Setting up Dynamico ${config.testedBotName}`})
+    .getByText('Setting up Dynamico')
+    .click();
+
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).press("Enter")
 }
 
 async function setup_max_channels(max, page) {
@@ -292,11 +312,11 @@ async function manage_users(page, username) {
 }
 
 async function configure(page) {
-  await page.getByRole("textbox", {name: "Message #general"}).locator("div").click();
-  await page.getByRole("textbox", {name: "Message #general"}).fill("/config");
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).locator("div").click();
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).fill("/config");
 
   await page.getByText("Commands matching").locator("..").locator("..").locator("..").getByRole('option', {name: `/config Configure Dynamico ${config.testedBotName}`}).getByText('Configure Dynamico').click();
-  await page.getByRole("textbox", {name: "Message #general"}).press("Enter")
+  await page.getByRole("textbox", {name: `Message ${config.channel_name}`}).press("Enter")
 }
 
 async function check_config(page, random_number, random_string) {
