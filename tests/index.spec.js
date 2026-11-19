@@ -206,10 +206,10 @@ async function voice(page, random_number, random_string) {
   await public_channel(page);
   await sleep(1000);
 
-  await private_channel(page, 'Gal Asraf#0001');
+  await private_channel(page, 'TestUser#0001');
   await sleep(1000);
 
-  await manage_users(page, 'Gal Asraf#0001');
+  await manage_users(page, 'TestUser#0001');
 }
 
 async function rename(page, random_string) {
